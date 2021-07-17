@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
+
+
+    <script src="js/template-web.js"></script>
+    <script src="js/axios.min.js"></script>
+    <!--    <script src="js/templatedemo.js"></script>-->
+
+</head>
+<body>
+<div id="new_data"></div>
+<button type="submit" id="get">get按钮</button>
+<button type="submit" id="post">post按钮</button>
+
+<div><input type="text" id="ipt" placeholder="请输入搜索的内容">
+    <button type="button">确定</button>
+</div>
+<script type="text/html" id="data">
+    <h3>name:{{name}},age:{{age}}</h3>
+    {{name|dataFormat}}
+</script>
+<script>
+    // var xhr = new XMLHttpRequest()
+    // var fd = new FormData()
+    // fd.append('bookname', 'abcd')
+    // fd.append('author', 'ddssdf')
+    // fd.append('publisher', 'ffdsa')
+    // // fd.append("id","1")
+    // // console.log(fd)
+    // console.log(fd.get("bookname"))
+    // console.log(fd.get("author"))
+    // console.log(fd.get("publisher"))
+
+
+    // xhr.open("POST", "http://www.liulongbin.top:3006/api/formdata")
+    // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+    // // xhr.send("bookname=学习前端知a&author=黑马程序员&publisher=人民出版社")
+    // xhr.send(fd);
+    // xhr.onreadystatechange = function () {
+    //     if (xhr.readyState === 4 && xhr.status === 200) {
+    //         console.log(JSON.parse(xhr.responseText))
+    //     }
+    // }
+
+
+    // xhr.open("GET", "http://www.liulongbin.top:3006/api/getbooks")
+    // xhr.send(fd)
+    // xhr.onreadystatechange = (function () {
+    //     if (xhr.readyState === 4 && xhr.status === 200) {
+    //         console.log(xhr.responseText)
+    //     }
+    // })
+    // var form = document.getElementsByTagName("div")
+    // form.addEventListener('submit', function (e) {
+    //     e.preventDefault()
+    // })
+
+
+    // axios.get('http://www.liulongbin.top:3006/api/getbooks')
+    //     .then(function (response) {
+    //         console.log(response);
+    //     });
+    // axios.get("http://www.liulongbin.top:3006/api/get",{name:'zs',age:20}).then(function (ret) {
+    //     console.log(ret.data)
+    // })
+    var url_get = 'http://www.liulongbin.top:3006/api/get'
+    var url_post = 'http://www.liulongbin.top:3006/api/post'
+    data = {name: "hongyan", age: 18}
+    params = {name: "hongyan", age: 18}
+    // document.querySelector("#post").addEventListener("click",function () {
+    //     console.log('111111')
+    //
+    //     }
+    //     )
+    // document.querySelector("#post").addEventListener("click",function () {
+    //     console.log(11111)
+    // })
+    $("#post").click(function (e) {
+        e.preventDefault()
+        console.log(1111)
+        axios({method: "POST", data: data, url: url_post}).then(function (ret) {
+            console.log(ret.data)
+        })
+    })
+
+    var content
+    $("#ipt").on("keyup", function (e) {
+        let keyword = $(this).val()
+        if (keyword.length > 0) {
+            ret = serach(keyword)
+            // console.log(ret)
+        }
+    })
+
+    function serach(keyword) {
+        const url = "https://suggest.taobao.com/sug?q=" + keyword
+
+        var test = $.ajax({
+            url: url,
+            dataType: 'jsonp',
+            success: function (ret) {
+                return  ret.responseText
+            }
+
+        })
+        console.log(test.responseText)
+        return test
+    }
+
+</script>
+</body>
+</html>
